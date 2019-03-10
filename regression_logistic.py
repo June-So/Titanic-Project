@@ -27,6 +27,8 @@ Model.reconstitute_data()
 Model.select_features()
 # --- ENTRAINEMENT DE LA REGRESSION LOGISTIQUE
 Model.split_data()
+#Model.search_hyperparameters()
+#Model.search_param_decisionTree()
 Model.train_model()
 # --- PREDICTIONS & PROBABILITE
 results_train,results_test = Model.get_predicts()

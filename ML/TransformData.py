@@ -13,9 +13,6 @@ def transform_sex(df):
     # -- Encoding [male=0,female=1]
     df['Sex'] = (df['Sex'] == 'female').astype(int)
 
-def transform_fare(df):
-    return df
-
 def transform_pclass(df):
     # One Hot Encoding
     df[['P1','P2','P3']] = pd.get_dummies(df['Pclass'])
@@ -23,3 +20,12 @@ def transform_pclass(df):
 def transform_deck(df):
     deck_encoding = {'N/A':0,'G':1,'F':2,'E':3,'D':4,'C':5,'B':6,'A':7}
     df['Deck'] = df['Deck'].replace(deck_encoding)
+
+def transform_cabin_t(df):
+    df.loc[(df.Cabin == 'T') & (df.Pclass == 1),'Cabin'] = 'E'
+
+def transform_age(df):
+    df.Age = df.Age.astype(int)
+
+def encoding_title(df):
+    df[sorted(df['Title'].unique())] = pd.get_dummies(df['Title'])

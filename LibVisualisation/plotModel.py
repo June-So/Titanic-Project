@@ -11,6 +11,12 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import balanced_accuracy_score
 
+def create_file_name(cols_features):
+    folder = '_'.join(cols_features)
+    if len(folder) > 20:
+        folder = folder[20:]
+    return folder
+
 # crosstab une matrice de confusion a partir d'un tableau de resulstats
 def plot_confusion_matrix(results,subplot=111,title='A PRECISER',normalize=True):
     cm_model = pd.crosstab(results['Survived'],results['Predict'],normalize=normalize).round(3)
@@ -33,7 +39,7 @@ def plot_roc_curve(y_true,y_pred,y_proba,title_dataset,cols_features):
     plt.legend(loc="lower right")
 
 def plot_all_confusion_matrix(results_train,results_test,cols_features,normalize="index"):
-    folder = '_'.join(cols_features)
+    folder = create_file_name(cols_features)
     sns.set(font_scale=2)
 
     plt.figure(figsize=(16,6))
@@ -43,7 +49,7 @@ def plot_all_confusion_matrix(results_train,results_test,cols_features,normalize
     plt.savefig(f'img/{folder}_confusion_matrix')
 
 def plot_all_roc_curve(results_train,results_test,cols_features):
-    folder = '_'.join(cols_features)
+    folder = create_file_name(cols_features)
     sns.set(font_scale=1.5)
     #print('--------- TRAIN --------')
     plt.figure(figsize=(15,5))
@@ -55,11 +61,11 @@ def plot_all_roc_curve(results_train,results_test,cols_features):
     plt.savefig(f'img/{folder}_roc_curve')
 
 def plot_coefficients(lr,cols_features):
-    folder = '_'.join(cols_features)
+    folder = create_file_name(cols_features)
     coefs = list(lr.intercept_) + list(lr.coef_[0])
     colnames = ['intercept'] + cols_features
     intercepts = pd.DataFrame({'varname':colnames,'intercept_':coefs})
-    intercepts.plot.barh(y='intercept_',x="varname",color="purple")
+    intercepts.plot.barh(y='intercept_',x="varname",color="purple",figsize=(15,20),fontsize=16)
     plt.ylabel('')
     plt.axvline(x=0, linestyle='--', color='black', linewidth=4)
     plt.title('Coefficents des features')
@@ -87,7 +93,7 @@ def plot_one_tpr(results,title,axe,fig,top=0,bottom=0,left=0,see_predicts=False,
     plt.subplots_adjust(top=top,bottom=bottom,left=left)
 
 def plot_TPR(results,cols_features,dataset_title="A PRECISER",ncols=4,nrows=1,figsize=(16,10),see_predicts=False,legend=False,cols_suptitle=''):
-    folder = '_'.join(cols_features)
+    folder = create_file_name(cols_features)
     y = 0
     i = 0
     if (len(cols_features) > 1):# and ((ncols == 4) and (nrows != 1)):

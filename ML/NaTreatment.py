@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # _____________________________________________________
 # --- TRAITEMENTS DES DONNEES MANQUANTES -------------
@@ -6,9 +7,13 @@ import pandas as pd
 def treatment_na_age(df):
     # Solution de Remplacement
     # A -- Par la moyenne d'âge
-    # B -- Random 25-30
-    # C -- Label 'N/A'
-    df['Age'].loc[df['Age'].isna()] = df['Age'].mean()
+    # B -- Random 25-30 # Marwan
+    #df.Age[(df.Age.isnull()) & (df.Survived == 1)] = 28
+    #df.Age[(df.Age.isnull()) & (df.Survived == 0)] = 26
+    #df.loc[df.Age.isna(),'Age'] = np.random.choice([26,27,28],df.Age.isna().sum())
+    #df['Age'] = df['Age'].fillna(np.random.choice([26,27,28]))
+    # C -- Label 'N/A' # Cyrille
+    df['Age'] = df['Age'].fillna(-1)
 
 def treatment_na_embarked(df):
     # -- Remplacement par le mode : S
